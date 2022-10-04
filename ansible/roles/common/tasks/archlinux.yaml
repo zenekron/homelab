@@ -1,0 +1,49 @@
+# vim: ft=yaml.ansible
+
+- name: "Install paru"
+  block:
+    - name: "Create the paru user"
+      ansible.builtin.user:
+        state: "present"
+        name: "paru"
+        system: true
+        create_home: false
+
+    - name: "Allow paru to execute pacman as root without a password prompt"
+      community.general.system.sudoers:
+        state: "present"
+        name: "paru"
+        user: "paru"
+        commands:
+          - "/usr/bin/pacman"
+        nopassword: true
+
+    - name: "Install paru"
+      kewlfft.aur.aur:
+        state: "present"
+        name: "paru-bin"
+      become_user: "paru"
+
+- name: "Configure pacman"
+  block:
+    - name: "Enable colors"
+      ansible.builtin.lineinfile:
+        path: "/etc/pacman.conf"
+        regexp: "^#?Color$"
+        line: "Color"
+
+    - name: "Enable parallel downloads"
+      ansible.builtin.lineinfile:
+        path: "/etc/pacman.conf"
+        regexp: "^#?ParallelDownloads\\s*="
+        line: "ParallelDownloads = 5"
+
+- name: "Install common packages"
+  kewlfft.aur.aur:
+    state: "present"
+    name:
+      - "fish"
+      - "git"
+      - "gptfdisk"
+      - "mdadm"
+      - "nfs-utils"

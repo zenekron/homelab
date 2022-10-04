@@ -1,0 +1,16 @@
+all:
+  hosts:
+    tnas.lan:
+      ca_dir: "/mnt/vault/ca"
+      nfs_iface: "enp2s0"
+      nfs_root: "/mnt/vault/nfs"
+      nfs_shares:
+        - "/homelab"
+  children:
+    homelab:
+      hosts:
+        homelab[01:01].lan: {}
+      vars:
+        k3s_master: "homelab01"
+        k3s_master_url: "https://{{ k3s_master }}.lan:6443"
+        k3s_token: "{{ lookup('ansible.builtin.password', 'data/k3s_token chars=hexdigits') }}"

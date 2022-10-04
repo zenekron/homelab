@@ -1,0 +1,6 @@
+# vim: ft=yaml.ansible
+
+- name: "Reload the NFS exports"
+  listen: "reload_nfs_exports"
+  ansible.builtin.command:
+    cmd: "exportfs -arv"

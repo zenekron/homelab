@@ -1,0 +1,4 @@
+# vim: ft=yaml.ansible
+
+- name: "Include OS-specific task"
+  ansible.builtin.include_tasks: "{{ ansible_facts.os_family | lower }}.yaml"

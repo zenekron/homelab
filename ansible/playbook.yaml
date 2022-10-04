@@ -1,0 +1,17 @@
+# vim: ft=yaml.ansible
+
+- name: "Common"
+  hosts: "all"
+  roles:
+    - "common"
+
+- name: "TNAS"
+  hosts: "tnas.lan"
+  roles:
+    - "nfs-server"
+    - "certificate-authority"
+
+- name: "Homelab"
+  hosts: "homelab"
+  roles:
+    - "k3s"

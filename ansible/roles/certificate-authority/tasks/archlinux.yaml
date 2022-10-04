@@ -1,0 +1,47 @@
+# vim: ft=yaml.ansible
+
+- name: "Install mkcert"
+  ansible.builtin.pacman:
+    state: "present"
+    name: "mkcert"
+
+- name: "Move the CA dir"
+  block:
+    - name: "Retrieve the default CA dir"
+      when: true # ansible-lint :(
+      ansible.builtin.command:
+        cmd: "mkcert -CAROOT"
+      register: "mkcert_ca_dir"
+
+    - name: "Create the CA dir"
+      ansible.builtin.file:
+        state: "directory"
+        path: "{{ ca_dir }}"
+        owner: "root"
+        group: "root"
+        mode: "0700"
+
+    - name: "Link the default CA dir to the newly created one"
+      ansible.builtin.file:
+        state: "link"
+        src: "{{ ca_dir }}"
+        dest: "{{ mkcert_ca_dir.stdout }}"
+        owner: "root"
+        group: "root"
+
+- name: "Create the CA key pair"
+  ansible.builtin.command:
+    cmd: "mkcert -install"
+    creates: "{{ ca_dir }}/rootCA-key.pem"
+
+- name: "Retrieve the CA key pair"
+  block:
+    - name: "Retrieve the CA public key"
+      ansible.builtin.fetch:
+        src: "{{ ca_dir }}/rootCA.pem"
+        dest: "data"
+
+    - name: "Retrieve the CA private key"
+      ansible.builtin.fetch:
+        src: "{{ ca_dir }}/rootCA-key.pem"
+        dest: "data"

@@ -1,0 +1,26 @@
+# vim: ft=yaml.ansible
+
+- name: "Install k3s"
+  kewlfft.aur.aur:
+    state: "present"
+    name: "k3s-1.24-bin"
+  become_user: "paru"
+
+- name: "Configure k3s"
+  ansible.builtin.template:
+    src: "k3s.service.env"
+    dest: "/etc/systemd/system/k3s.service.env"
+    owner: "root"
+    group: "root"
+    mode: "0400"
+
+- name: "Start the k3s service"
+  ansible.builtin.systemd:
+    state: "started"
+    enabled: true
+    name: "k3s.service"
+
+- name: "Fetch the k3s yaml"
+  ansible.builtin.fetch:
+    src: "/etc/rancher/k3s/k3s.yaml"
+    dest: "data"

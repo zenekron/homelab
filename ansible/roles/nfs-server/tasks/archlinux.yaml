@@ -1,0 +1,38 @@
+# vim: ft=yaml.ansible
+
+- name: "Calculate the NFS IPv4 mask"
+  ansible.builtin.set_fact:
+    nfs_ipv4_mask: "{{ ansible_facts[nfs_iface]['ipv4']['network'] }}/{{ ansible_facts[nfs_iface]['ipv4']['prefix'] }}"
+
+- name: "Create the NFS root"
+  ansible.builtin.file:
+    state: "directory"
+    path: "{{ nfs_root }}"
+    owner: "root"
+    group: "root"
+    mode: "0700"
+
+- name: "Create the NFS shares"
+  loop: "{{ nfs_shares }}"
+  ansible.builtin.file:
+    state: "directory"
+    path: "{{ nfs_root }}{{ item }}"
+    owner: "nobody"
+    group: "nobody"
+    mode: "0777"
+
+- name: "Configure the NFS exports"
+  ansible.builtin.template:
+    src: "ansible.exports"
+    dest: "/etc/exports.d/ansible.exports"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  notify:
+    - "reload_nfs_exports"
+
+- name: "Start the NFS server"
+  ansible.builtin.systemd:
+    state: "started"
+    enabled: true
+    name: "nfs-server.service"

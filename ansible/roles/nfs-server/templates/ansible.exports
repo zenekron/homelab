@@ -1,0 +1,4 @@
+{{ nfs_root }}	{{ nfs_ipv4_mask }}(rw,sync,fsid=0)
+{% for nfs_share in nfs_shares %}
+{{ nfs_root }}{{ nfs_share }}	{{ nfs_ipv4_mask }}(rw,sync,nohide)
+{% endfor %}
