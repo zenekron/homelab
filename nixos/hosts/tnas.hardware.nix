@@ -3,6 +3,11 @@
 # to /etc/nixos/configuration.nix instead.
 { config, lib, pkgs, modulesPath, ... }:
 
+let
+  bootDisk = "/dev/disk/by-uuid/E7B2-AE34";
+  rootDisk = "/dev/disk/by-uuid/fab183a8-8085-4da3-93d5-b98b0ad24338";
+  vaultDisk = "/dev/disk/by-uuid/0b1d92c7-f96d-413d-bbae-6072362c91df";
+in
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
@@ -28,33 +33,35 @@
   ########################################
 
   fileSystems = {
+    "/boot" = {
+      device = bootDisk;
+      fsType = "vfat";
+    };
+
     "/" = {
-      device = "/dev/disk/by-uuid/ac3a8650-9030-428d-aa12-c36da1a6f924";
+      device = rootDisk;
       fsType = "btrfs";
       options = [ "subvol=root" ];
     };
 
     "/home" = {
-      device = "/dev/disk/by-uuid/ac3a8650-9030-428d-aa12-c36da1a6f924";
+      device = rootDisk;
       fsType = "btrfs";
-      options = [ "subvol=home" "compress=zstd" ];
+      options = [ "subvol=root/home" "compress=zstd" ];
     };
 
     "/nix" = {
-      device = "/dev/disk/by-uuid/ac3a8650-9030-428d-aa12-c36da1a6f924";
+      device = rootDisk;
       fsType = "btrfs";
-      options = [ "subvol=nix" "compress=zstd" "noatime" ];
+      options = [ "subvol=root/nix" "compress=zstd" "noatime" ];
     };
 
-    "/boot" = {
-      device = "/dev/disk/by-uuid/3C27-ED52";
-      fsType = "vfat";
     };
 
     "/mnt/vault" = {
-      device = "/dev/disk/by-uuid/7bd3fe6c-5f4d-4918-8ba4-5d75b5d2acb1";
+      device = vaultDisk;
       fsType = "btrfs";
-      options = [ "subvol=root" "compress=zstd" ];
+      options = [ "subvol=vault" "compress=zstd" ];
     };
   };
 
