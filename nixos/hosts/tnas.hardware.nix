@@ -37,13 +37,13 @@
     "/home" = {
       device = "/dev/disk/by-uuid/ac3a8650-9030-428d-aa12-c36da1a6f924";
       fsType = "btrfs";
-      options = [ "compress=zstd" "subvol=home" ];
+      options = [ "subvol=home" "compress=zstd" ];
     };
 
     "/nix" = {
       device = "/dev/disk/by-uuid/ac3a8650-9030-428d-aa12-c36da1a6f924";
       fsType = "btrfs";
-      options = [ "compress=zstd" "noatime" "subvol=nix" ];
+      options = [ "subvol=nix" "compress=zstd" "noatime" ];
     };
 
     "/boot" = {
@@ -54,7 +54,7 @@
     "/mnt/vault" = {
       device = "/dev/disk/by-uuid/7bd3fe6c-5f4d-4918-8ba4-5d75b5d2acb1";
       fsType = "btrfs";
-      options = [ "compress=zstd" "subvol=root" ];
+      options = [ "subvol=root" "compress=zstd" ];
     };
   };
 
