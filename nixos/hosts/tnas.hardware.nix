@@ -56,6 +56,10 @@ in
       options = [ "subvol=root/nix" "compress=zstd" "noatime" ];
     };
 
+    "/swap" = {
+      device = "/dev/disk/by-uuid/ac3a8650-9030-428d-aa12-c36da1a6f924";
+      fsType = "btrfs";
+      options = [ "subvol=root/swap" "noatime" ];
     };
 
     "/mnt/vault" = {
@@ -65,7 +69,7 @@ in
     };
   };
 
-  swapDevices = [ ];
+  swapDevices = [{ device = "/swap/swapfile"; }];
 
 
   ########################################
