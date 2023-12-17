@@ -57,7 +57,7 @@ in
     };
 
     "/swap" = {
-      device = "/dev/disk/by-uuid/ac3a8650-9030-428d-aa12-c36da1a6f924";
+      device = rootDisk;
       fsType = "btrfs";
       options = [ "subvol=root/swap" "noatime" ];
     };
