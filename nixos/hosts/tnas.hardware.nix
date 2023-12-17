@@ -51,7 +51,7 @@
       fsType = "vfat";
     };
 
-    "/mnt/valut" = {
+    "/mnt/vault" = {
       device = "/dev/disk/by-uuid/7bd3fe6c-5f4d-4918-8ba4-5d75b5d2acb1";
       fsType = "btrfs";
       options = [ "compress=zstd" "subvol=root" ];
