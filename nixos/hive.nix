@@ -44,5 +44,9 @@
     # };
   };
 
-  homelab01 = { ... }: { };
+  homelab01 = { ... }: {
+    imports = [
+      ./configurations/k3s.nix
+    ];
+  };
 }
