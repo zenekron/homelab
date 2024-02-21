@@ -1,0 +1,5 @@
+# prettier-only
+pnpm-lock.yaml
+
+# node
+/node_modules/
