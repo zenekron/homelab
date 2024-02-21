@@ -15,25 +15,25 @@ import { KubernetesCommonLabels } from "./util";
 import { Deployment } from "@pulumi/kubernetes/apps/v1";
 
 export interface PostgresArgs {
-	namespace?: Input<string>;
-	labels?: Record<string, Input<string>>;
-
 	mode: "single-instance";
 	version?: Input<string>;
 	username?: Input<string>;
 	password?: Input<string>;
 	database?: Input<string>;
+
+	namespace?: Input<string>;
+	labels?: Record<string, Input<string>>;
 }
 
 export class Postgres extends ComponentResource {
 	// args
-	public readonly namespace: Input<string>;
-	public readonly labels: Record<string, Input<string>>;
-
 	public readonly version: Input<string>;
 	public readonly username: Input<string>;
 	public readonly password: Input<string>;
 	public readonly database: Input<string>;
+
+	public readonly namespace: Input<string>;
+	public readonly labels: Record<string, Input<string>>;
 
 	// resources
 	public readonly deployment: Deployment;
@@ -51,7 +51,6 @@ export class Postgres extends ComponentResource {
 	) {
 		super("Postgres", name, undefined, opts);
 
-		this.namespace = args.namespace ?? "default";
 		this.version = args.version ?? "latest";
 		this.username = args.username ?? "postgres";
 		this.password =
@@ -62,6 +61,8 @@ export class Postgres extends ComponentResource {
 				{ parent: this },
 			).result;
 		this.database = args.database ?? this.username;
+
+		this.namespace = args.namespace ?? "default";
 		this.labels = {
 			...(args.labels ?? {}),
 			...({
@@ -83,7 +84,7 @@ export class Postgres extends ComponentResource {
 					labels: this.labels,
 				},
 
-				data: {
+				stringData: {
 					POSTGRES_USER: this.username,
 					POSTGRES_PASSWORD: this.password,
 				},
