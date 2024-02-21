@@ -5,6 +5,7 @@
 		"@pulumi/pulumi": "^3.106.0"
 	},
 	"devDependencies": {
+		"@pulumi/eslint-plugin": "^0.2.0",
 		"@tsconfig/node20": "^20.1.2",
 		"@tsconfig/recommended": "^1.0.3",
 		"@tsconfig/strictest": "^2.0.3",

@@ -4,9 +4,13 @@
 		"plugin:@typescript-eslint/strict-type-checked",
 		"plugin:@typescript-eslint/stylistic-type-checked"
 	],
-	"plugins": ["@typescript-eslint"],
+	"plugins": ["@typescript-eslint", "@pulumi/eslint-plugin"],
 	"parser": "@typescript-eslint/parser",
 	"parserOptions": {
 		"project": true
+	},
+	"rules": {
+		"@pulumi/no-output-in-template-literal": "error",
+		"@pulumi/no-output-instance-in-template-literal": "error"
 	}
 }
