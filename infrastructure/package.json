@@ -7,7 +7,9 @@
 		"pulumi": "tsc && pulumi"
 	},
 	"dependencies": {
-		"@pulumi/pulumi": "^3.106.0"
+		"@pulumi/kubernetes": "^4.7.1",
+		"@pulumi/pulumi": "^3.106.0",
+		"@pulumi/random": "^4.15.1"
 	},
 	"devDependencies": {
 		"@pulumi/eslint-plugin": "^0.2.0",
