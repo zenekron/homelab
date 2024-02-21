@@ -1,6 +1,9 @@
 name: homelab
-runtime: nodejs
 description: Homelab
+runtime:
+  name: nodejs
+  options:
+    typescript: false
 
 config:
   pulumi:tags:

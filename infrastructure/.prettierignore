@@ -1,5 +1,8 @@
 # prettier-only
 pnpm-lock.yaml
 
+# --- .gitignore --- #
+/build/
+
 # node
 /node_modules/

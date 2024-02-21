@@ -1,6 +1,11 @@
 {
 	"name": "homelab",
-	"main": "index.ts",
+	"main": "./build/index.js",
+	"scripts": {
+		"format": "prettier --write .",
+		"lint": "eslint .",
+		"pulumi": "tsc && pulumi"
+	},
 	"dependencies": {
 		"@pulumi/pulumi": "^3.106.0"
 	},
