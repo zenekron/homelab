@@ -1,0 +1,8 @@
+name: homelab
+runtime: nodejs
+description: Homelab
+
+config:
+  pulumi:tags:
+    value:
+      pulumi:template: ""

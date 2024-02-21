@@ -1,0 +1,14 @@
+{
+  "name": "homelab",
+  "main": "index.ts",
+  "dependencies": {
+    "@pulumi/pulumi": "^3.106.0"
+  },
+  "devDependencies": {
+    "@tsconfig/node20": "^20.1.2",
+    "@tsconfig/recommended": "^1.0.3",
+    "@tsconfig/strictest": "^2.0.3",
+    "@types/node": "^20.11.19",
+    "typescript": "^5.3.3"
+  }
+}
