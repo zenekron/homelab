@@ -1,6 +1,11 @@
 import { Namespace } from "@pulumi/kubernetes/core/v1";
 import { KubernetesCommonLabels } from "./util";
 import { Postgres } from "./postgres";
+import { Democracy } from "./democracy";
+import { Config } from "@pulumi/pulumi";
+
+const cfg = new Config();
+const discordToken = cfg.requireSecret("democracy-discord-token");
 
 const democracyLabels: Partial<KubernetesCommonLabels> = {
 	"app.kubernetes.io/part-of": "democracy",
@@ -15,11 +20,20 @@ const democracyNamespace = new Namespace("democracy-namespace", {
 });
 
 const democracyPostgres = new Postgres("democracy", {
-	namespace: democracyNamespace.metadata.name,
-	labels: democracyLabels,
-
 	mode: "single-instance",
 	version: "15.3",
+
+	namespace: democracyNamespace.metadata.name,
+	labels: democracyLabels,
 });
 
-democracyPostgres;
+const democracyBot = new Democracy("democracy", {
+	databaseUrl: democracyPostgres.connectionUrl,
+	discordToken,
+	version: "0.2.2",
+
+	namespace: democracyNamespace.metadata.name,
+	labels: democracyLabels,
+});
+
+democracyBot;
